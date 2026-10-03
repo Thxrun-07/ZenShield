@@ -1,4 +1,4 @@
-# Python & Byte-compiled files
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -21,32 +21,28 @@ wheels/
 .installed.cfg
 *.egg
 
-# Database files
-*.db
-*.sqlite
-*.sqlite3
-
 # Virtual Environments
 venv/
 .venv/
 ENV/
+env.bak/
+venv.bak/
 
-# Environment files with secrets
+# Environment file
 .env
-*.env.local
 
-# Testing & Cache
+# Testing & Coverage
 .pytest_cache/
 .coverage
 htmlcov/
-.cache/
+.cache
 
-# IDEs & Editors
+# IDEs and Editors
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS
+# OS Generated
 .DS_Store
 Thumbs.db
