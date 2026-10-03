@@ -1,4 +1,4 @@
-# Python
+# Python & Byte-compiled files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -20,6 +20,11 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
 
 # Virtual Environments
 venv/
