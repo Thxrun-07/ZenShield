@@ -1,0 +1,55 @@
+name: ZenShield CI Pipeline
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  quality-and-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install System Dependencies (OpenCV & Tesseract)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            tesseract-ocr \
+            tesseract-ocr-eng \
+            libgl1 \
+            libglib2.0-0
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools
+          pip install -e ".[dev]"
+
+      - name: Code Quality & Linting (Ruff)
+        run: |
+          ruff check src tests
+          ruff format --check src tests
+
+      - name: Type Checking (Mypy)
+        run: |
+          mypy src/zenshield
+
+      - name: Run Test Suite (Pytest)
+        run: |
+          pytest tests/ -v --durations=10
+
+      - name: Dependency Security Audit (pip-audit)
+        run: |
+          pip-audit
